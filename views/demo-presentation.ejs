@@ -2,37 +2,300 @@
 
   <!-- Used to fade in a background when a specific slide state is reached -->
   <div class="state-background"></div>
-  
+
   <!-- Any section element inside of this container is displayed as a slide -->
   <div class="slides">
-    
+
     <!-- SLIDE 1 -->
     <section>
-      <h1>Reveal.js</h1>
-      <h2>Awesome Javascript Framework for Presentation</h2>
+      <img src="https://pbs.twimg.com/media/CN-6OuEUcAA2qkm.png"/>
     </section>
-    
-    <!-- SLIDE 2 -->
     <section>
-      <h3>Slide 2</h3>
-      <p>You can input all valid html tag here</p>
+      <h1>What's different in Angular 2</h1>
+      <img src="http://www.talkingdotnet.com/wp-content/uploads/2016/03/Difference-between-Angular-1x-and-Angular-2.png"/>
     </section>
-    
-    <!-- SLIDE 3 - Vertical Slide -->
+    <!--
+      talk about the tooling
+      because of the tooling mainly nodejs typescript
+      can strongly type code. The tooling will inform you of error
+      and even performance recommendation in the ide.
+      it Eagerly checks your code quality before manual testing
+      es6 can be used and it will transpile to es5
+      intellisense in your ide because you can generate typings
+      jsdoc for documentation
+      running unit tests
+      and there is even a tool called codelyzer which will
+      evaluate your existing code angainst the angular style guide
+      and make recomendations
+    -->
     <section>
-      <section>
-        <h3>Slide 3</h3>
-        <p>Slide with vertical slide, press down to see slide below</p>
-      </section>
-      
-      <section>
-        <h1>Vertical Slide</h1>
-      </section>
+      <h2>Tooling</h2>
+      <img src="http://selleo.com/wp-content/uploads/2015/10/migrating-to-angular2-typescript.png" height="384"/><br>
+      <a href="http://es6-features.org/">ES6 examples</a>
     </section>
-    
+    <!--
+      package management for bundling js
+      for lazy file loading or packaging
+      basically avoiding the having to manage
+      script tags
+      es6 modules import and export
+    -->
     <section>
-      <h1>End Slide</h1>
+      <h2>ES6 modules</h2>
+
+      <img src="https://avatars1.githubusercontent.com/u/2105791?v=3&s=400" height="128"/>
+      <img src="https://raw.githubusercontent.com/fountainjs/generator-fountain-webapp/master/docs/assets/systemjs.png" height="128"/>
+      <img src="https://amitd.co/img/stack/bower.png" height="128"/>
+
+      <h6>works with your favorite js package managers for bundling or lazy file loading</h6>
     </section>
+
+
+
+    <!--
+      change detection
+      zones handle asynchornous data
+      in promises you request data and then there is a callback
+      and sometimes this falls out of sync with the digest cycle
+
+    -->
+    <section>
+      <h2>No more $digest cycle</h2>
+      <img src="http://image.slidesharecdn.com/xebiconangular2-151127122916-lva1-app6891/95/xebiconfr-15-brace-yourselves-angular-2-is-coming-66-638.jpg?cb=1448627501"/ height="500">
+    </section>
+
+    <!--
+        no more provider,factory,service,value,constant,
+        just service
+    -->
+    <section>
+      <h2>Services Only</h2>
+      <pre >
+        <code class="prettyprint">
+          import { Injectable } from '@angular/core';
+
+          import { HEROES } from './mock-heroes';
+
+          @Injectable()
+          export class HeroService {
+            getHeroes() {
+              return HEROES;
+            }
+          }
+
+        </code>
+      </pre>
+    </section>
+    <!--
+      how are these consolidated?
+      scope via classes in es6
+      controllers,ddo,modules via components
+    -->
+    <section>
+      <img src="http://bkinsey808.github.io/bk-intro-to-ng2-slides/img/ng1-graveyard.png"/ height="500">
+    </section>
+    <!--
+      components replace modules,
+      components are the official
+      template directive
+    -->
+    <section>
+      <h2>Components, Components, Components!</h2>
+      <img src="https://cdn.meme.am/instances/500x/65518926.jpg"  height="384"/>
+    </section>
+    <!--
+      talk about multiline string in es6
+      annotations
+      what are components?
+      always have a template
+    -->
+    <section>
+      <h2>Components</h2>
+      <pre>
+        <xmp class="prettyprint" id="htmlXmp">
+            //hero-app.component.ts
+            @Component({
+                selector: 'hero-app',
+                template: `
+                    <h1>Tour of Heroes</h1>
+                    <hero-app-main [hero]=hero></hero-app-main>
+                `,
+                styles: ['h1 { font-weight: normal; }'],
+                directives: [HeroAppMainComponent],
+                providers: [HeroServices]
+            })
+            export class HeroAppComponent {
+            /* . . . */
+            }
+
+            //index.html
+            <hero-app></hero-app>
+        </xmp>
+      </pre>
+    </section>
+    <!--
+      no longer need snake case.
+      what are directives? behavioral or attribute directives
+
+    -->
+    <section>
+      <h2>Directives</h2>
+      <pre >
+        <xmp class="prettyprint">
+        import { Directive, ElementRef, Input } from '@angular/core';
+        @Directive({ selector: '[myHighlight]' })
+        export class HighlightDirective {
+            constructor(el: ElementRef) {
+              el.nativeElement.style.backgroundColor = 'yellow';
+            }
+        }
+
+        //index.html
+        <div myHighlight>highlight me bro!</div>
+        </xmp>
+      </pre>
+    </section>
+
+    <!--
+      structural directive replaces ng-if and ng-repeat
+      used for compiling
+    -->
+    <section>
+      <h2>Structural Directives</h2>
+      <pre>
+        <xmp class="prettyprint">
+          <div *ngIf="hero">{{hero}}</div>
+          <div *ngFor="let hero of heroes">{{hero}}</div>
+        </xmp>
+      </pre>
+    </section>
+    <!--how has binding changed. not too much-->
+    <section>
+      <pre>
+        <xmp class="prettyprint">
+          data binding
+          <div>{{value}}</div>
+
+          @input
+          <div [innerHtml]=“value"></div>
+
+          @output
+          <div (click)=“handler”></div>
+
+          input/output
+          [(ngmodel)]=property
+
+          local variable
+          <video-player #player></video-player>
+          <button (click)="player.pause()">Pause</button>
+        </xmp>
+      </pre>
+    </section>
+    <!--
+      life cycle hooks example. Ususally you would need to figure
+      out and run the events manually but now you have hooks
+    -->
+    <section>
+      <h2>Life Cycle Hooks</h2>
+      <pre >
+        <code class="prettyprint">
+          // Spy on any element to which it is applied.
+          // Usage: <div mySpy>...</div>
+          @Directive({selector: '[mySpy]'})
+          export class Spy implements OnInit, OnDestroy {
+
+            constructor(private logger: LoggerService) { }
+
+            ngOnInit()    { this.logIt(`onInit`); }
+
+            ngOnDestroy() { this.logIt(`onDestroy`); }
+
+            private logIt(msg: string) {
+              this.logger.log(`Spy #${nextId++} ${msg}`);
+            }
+          }
+        </code>
+      </pre>
+    </section>
+
+    <!--
+      explain barrels
+
+    -->
+    <section>
+      <h2>Hierarchal Dependency Injection</h2>
+      <img src="https://angular.io/resources/images/devguide/dependency-injection/component-hierarchy.png" height="400"/>
+    </section>
+
+    <!--pipes explain pipe chaining, change detection is faster but they recommend using observables to update-->
+    <section>
+      <h2>Pipes replace Filters</h2>
+      <pre><code class="prettyprint">The chained hero's birthday is {{ birthday | date | uppercase}}</code></pre>
+    </section>
+
+    <section>
+      <h2>Solutions to old problems</h2>
+      <ul>
+        <li>no longer dependent on browser</li>
+        <li>has an SEO solution (Angular Universal)</li>
+        <li>Can run both a1 and a2 via ngUpgrade</li>
+        <li>mobile via nativescript</li>
+      </ul>
+    </section>
+    <!--i excluded component router from this talk as it is still in a release candidate phase so the rules behind it could change-->
+    <!--
+
+    component module
+      directive
+      service
+
+    annotations as metadata
+    metadata is used reflectively so angular knows what to do
+    discuss package management
+    how has the syntax changes
+    talk about components and modules
+    new routing
+
+    changes
+
+    component based
+    no more scope
+    change detection is instead using Zones from Zone.js
+    zonejs is used to be able to profile asynchronous tasks via event hooks
+    and because of that can also be used to more efficiently handle change detection.
+    now you have components and directives
+    components imply a template
+    where directives are behavioral
+    and then structural directives
+
+    hierarchal dependency injection
+    able to define dependencies in buckets they call barrels
+    directives are injected now for performance reasons
+
+    discuss lifecycle hooks
+    #local variable
+    data binding
+    {{value}}
+    input []
+    [property]=“value"
+    output ()
+    (event)=“handler”
+    banana in a box
+    input/output
+    [(ngmodel)]=property
+
+    component Router
+
+    pipes
+    component styles
+
+    able to migrate using angular 1 and 2 together using a facade pattern.
+
+
+
+    Ian
+    discuss Lambdas and Observables
+    -->
   </div>
 
   <!-- The navigational controls UI -->
@@ -45,7 +308,7 @@
 
   <!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
   <div class="progress"><span></span></div>
-  
+
 </div>
 
 
