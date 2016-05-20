@@ -1,3 +1,9 @@
+NG-Conf Recap
+=============================
+This includes the slides and presentation from May 19 2016. If you want
+to repurpose the tools used to create the presentation see the original
+read me below.
+
 Remote Presentation Controller
 ==============================
 
